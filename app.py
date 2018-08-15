@@ -7,7 +7,7 @@ import tensorflow as tf
 
 import numpy as np
 
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
 
 
@@ -49,9 +49,6 @@ def index():
 # The Predict-POST request function
 @app.route("/predict", methods=['GET', 'POST'])
 def predict():
-    # # Initializing the final return dictionary which will be send as JSON data
-    # data = {"success": False}
-
     if request.method == "POST":
         # Get the file from post request
         f = request.files['file']
@@ -64,9 +61,7 @@ def predict():
         print("File is available at {}".format(file_path))
 
         # read image in PIL format
-        # image = request.files["image"].read()
         img = image.load_img(file_path, target_size=(224, 224))
-        # image = Image.open(io.BytesIO(file_path))
 
         # preparing the image for classification
         img = prepare_image(img, target=(224, 224))
@@ -80,19 +75,6 @@ def predict():
 
             # Convert to string
             result = str(pred_class[0][0][1])
-
-            # TO BE USED: when we need to return a list of predictions in form of JSON data
-            #
-            #     # # Saving the result set of classifiaction into a list
-            #     # data["predictions"] = []
-            #     # for (imagenetID, label, prob) in results[0]:
-            #     #     data["predictions"].append({"label": label, "probability": float(prob)})
-            #     #
-            #     # # Updating the flag for successful prediction
-            #     # data["success"] = True
-
-            # # returning the data after converting into JSON format
-            # return jsonify(data)
             return result
     return None
 
