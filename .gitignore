@@ -1,3 +1,5 @@
 !uploads/.gitkeep
 uploads/*.png
 uploads/*.jpg
+.DS_Store
+.idea/*
